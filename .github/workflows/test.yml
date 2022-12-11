@@ -27,7 +27,8 @@ jobs:
           cd ../
           mkdir docker-rootfs
           cd docker-rootfs
-          docker create ${{ github.event.inputs.docker }}
+          docker pull ${{ github.event.inputs.docker }}
+          #docker create ${{ github.event.inputs.docker }}
           docker export ${{ github.event.inputs.docker }} --output="rootfs.tar"
           undocker rootfs.tar -
     
