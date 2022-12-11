@@ -23,7 +23,7 @@ jobs:
           go install honnef.co/go/tools/cmd/staticcheck@latest
           git clone https://git.sr.ht/~motiejus/undocker
           cd undocker
-          make -C undocker -O -j$(nproc) undocker coverage.html lint && make -C undocker install
+          make -O -j$(nproc) undocker coverage.html lint && sudo make install
           cd ../
           mkdir docker-rootfs
           cd docker-rootfs
