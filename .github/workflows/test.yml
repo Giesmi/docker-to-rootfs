@@ -1,4 +1,22 @@
-skopeo copy docker://docker.io/busybox:latest docker-archive:busybox.tar
+name: Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker:
+        description: "Direct URL to deb file"
+        required: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Convert deb to IPA
+        run: |
+          skopeo copy docker://hub.docker.com/${{ github.workspace }}:latest docker-archive:roootfs.tar ${{ github.workspace }}/app.deb "${{ github.event.inputs.deb }}"
+          dpkg-deb -X ${{ github.workspace }}/app.deb ${{ github.workspace }}/app 
+    
       - name: Uploading as artifact
         uses: actions/upload-artifact@v2
         with:
