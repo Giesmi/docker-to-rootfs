@@ -1,1 +1,10 @@
 skopeo copy docker://docker.io/busybox:latest docker-archive:busybox.tar
+      - name: Uploading as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: kernel-testing
+          retention-days: 1
+          path: |
+            bzImage-testing
+            modules-testing.tar.xz
+            headers-testing.tar.xz
