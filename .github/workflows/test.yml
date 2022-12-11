@@ -12,10 +12,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
+     - name: Set up Go 1.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.13
+      id: go
+
       - name: Convert deb to IPA
         run: |
-          skopeo copy docker://hub.docker.com/${{ github.workspace }}:latest docker-archive:roootfs.tar ${{ github.workspace }}/app.deb "${{ github.event.inputs.deb }}"
-          dpkg-deb -X ${{ github.workspace }}/app.deb ${{ github.workspace }}/app 
+          sudo apt install skopeo
+          go install honnef.co/go/tools/cmd/staticcheck@latest
+          git clone https://git.sr.ht/~motiejus/undocker
+          cd undocker
+          make -C undocker -O -j$(nproc) undocker coverage.html lint
+          cd ../
+          mkdir docker-rootfs
+          cd docker-rootfs
+          skopeo copy docker://hub.docker.com/${{ github.event.inputs.docker }}:latest docker-archive:rootfs.tar
+          undocker rootfs.tar -
     
       - name: Uploading as artifact
         uses: actions/upload-artifact@v2
