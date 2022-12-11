@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       docker:
-        description: "Direct URL to deb file"
+        description: "put docker name eg. example/base"
         required: true
 
 jobs:
