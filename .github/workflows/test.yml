@@ -27,7 +27,7 @@ jobs:
           cd ../
           mkdir docker-rootfs
           cd docker-rootfs
-          skopeo copy docker://hub.docker.com/${{ github.event.inputs.docker }}:latest docker-archive:rootfs.tar
+          skopeo copy https://hub.docker.com/${{ github.event.inputs.docker }}:latest docker-archive:rootfs.tar
           undocker rootfs.tar -
     
       - name: Uploading as artifact
